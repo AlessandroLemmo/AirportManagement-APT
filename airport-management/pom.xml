@@ -13,6 +13,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jacoco.version>0.8.5</jacoco.version>
+		<coveralls.version>4.3.0</coveralls.version>
 	</properties>
 
 	<dependencies>
