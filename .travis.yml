@@ -17,7 +17,7 @@ cache:
 
 
 script:
-- mvn -f airport-management/pom.xml clean verify
+- mvn -f airport-management/pom.xml clean verify -Pjacoco coveralls:report
 
 
 
