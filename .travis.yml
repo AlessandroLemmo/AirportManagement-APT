@@ -8,21 +8,16 @@ services:
 
 jdk: openjdk8
 
-addons:
-   sonarcloud:
-      organization: "alessandrolemmo"
-      token: $SONAR_TOKEN
 
 install: true
 
 cache:
    directories:
       - $HOME/.m2
-      - $HOME/.sonar/cache
 
 
 script:
-- mvn -f airport-management/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
+- mvn -f airport-management/pom.xml clean verify -Pjacoco coveralls:report
 
 
 
