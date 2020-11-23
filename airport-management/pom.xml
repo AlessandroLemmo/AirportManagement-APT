@@ -30,6 +30,7 @@
 			**/app/*.*,
 			**/exception/*.*,
 			**/transaction/*.*,
+			**/view/swing/*.*,
 		</sonar.coverage.exclusions>
 		
 		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
