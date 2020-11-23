@@ -33,7 +33,7 @@
 			**/view/swing/*.*,
 		</sonar.coverage.exclusions>
 		
-		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2,e3</sonar.issue.ignore.multicriteria>
 
 		<!-- Boolean expressions should not be gratuitous -->
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -42,6 +42,10 @@
 		<!-- Method complexity -->
 		<sonar.issue.ignore.multicriteria.e2.ruleKey>java:S3776</sonar.issue.ignore.multicriteria.e2.ruleKey>
 		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/AirportServiceLayer.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
+		
+		<!-- Tests should include assertions -->
+		<sonar.issue.ignore.multicriteria.e3.ruleKey>java:S2699</sonar.issue.ignore.multicriteria.e3.ruleKey>
+		<sonar.issue.ignore.multicriteria.e3.resourceKey>**/AirportSwingView*.java</sonar.issue.ignore.multicriteria.e3.resourceKey>
 	</properties>
 
 	<dependencies>
