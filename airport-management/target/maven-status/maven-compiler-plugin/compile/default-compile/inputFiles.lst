@@ -1,1 +1,7 @@
 /home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/App.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/model/Plane.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/model/Flight.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/repository/mongo/FlightRepositoryMongo.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/repository/PlaneRepository.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/repository/mongo/PlaneRepositoryMongo.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/main/java/com/airport_management/repository/FlightRepository.java

@@ -1,0 +1,7 @@
+com/airport_management/repository/PlaneRepository.class
+com/airport_management/repository/FlightRepository.class
+com/airport_management/repository/mongo/PlaneRepositoryMongo.class
+com/airport_management/repository/mongo/FlightRepositoryMongo.class
+com/airport_management/App.class
+com/airport_management/model/Flight.class
+com/airport_management/model/Plane.class

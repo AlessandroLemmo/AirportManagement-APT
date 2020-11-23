@@ -1,0 +1,3 @@
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/test/java/com/airport_management/AppTest.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/test/java/com/airport_management/repository/mongo/PlaneRepositoryMongoTest.java
+/home/alessandro/eclipse-workspace/AirportManagementGitHub/airport-management/src/test/java/com/airport_management/repository/mongo/FlightRepositoryMongoTest.java

@@ -1,0 +1,3 @@
+com/airport_management/repository/mongo/PlaneRepositoryMongoTest.class
+com/airport_management/repository/mongo/FlightRepositoryMongoTest.class
+com/airport_management/AppTest.class

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.airport_management.repository.mongo.FlightRepositoryMongoTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.75 sec
