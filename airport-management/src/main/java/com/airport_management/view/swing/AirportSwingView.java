@@ -75,13 +75,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView{
 	
 	private JSpinner spinnerDepartureDate;
 	private JSpinner spinnerArrivalDate;
-	private JSpinner spinnerSearchByDepartureDateStart;
-	private JSpinner spinnerSearchByDepartureDateEnd;
-	private JSpinner spinnerSearchByArrivalDateStart;
-	private JSpinner spinnerSearchByArrivalDateEnd;
 	
 	private JComboBox<String> comboBox;
-	private JComboBox<String> comboBoxSearch;
 	
 	private transient List<Plane> planes = new ArrayList<>();
 	private JLabel lblPlane;
@@ -95,10 +90,6 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView{
 		return comboBox;
 	}
 	
-	public JComboBox<String> getComboBoxSearch() {
-		return comboBoxSearch;
-	}
-	
 	public JSpinner getSpinnerDepartureDate() {
 		return spinnerDepartureDate;
 	}
@@ -106,23 +97,6 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView{
 	public JSpinner getSpinnerArrivalDate() {
 		return spinnerArrivalDate;
 	}
-	
-	public JSpinner getSpinnerSearchByDepartureDateStart() {
-		return spinnerSearchByDepartureDateStart;
-	}
-	
-	public JSpinner getSpinnerSearchByDepartureDateEnd() {
-		return spinnerSearchByDepartureDateEnd;
-	}
-	
-	public JSpinner getSpinnerSearchByArrivalDateStart() {
-		return spinnerSearchByArrivalDateStart;
-	}
-	
-	public JSpinner getSpinnerSearchByArrivalDateEnd() {
-		return spinnerSearchByArrivalDateEnd;
-	}
-	
 	
 	DefaultListModel<Plane> getListPlaneModel() {
 		return listPlanesModel;
