@@ -33,7 +33,7 @@
 			**/view/swing/*.*,
 		</sonar.coverage.exclusions>
 		
-		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
 
 		<!-- Boolean expressions should not be gratuitous -->
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -50,6 +50,11 @@
 		<!-- Local variable and method parameter names should comply with a naming convention -->
 		<sonar.issue.ignore.multicriteria.e4.ruleKey>java:S117</sonar.issue.ignore.multicriteria.e4.ruleKey>
 		<sonar.issue.ignore.multicriteria.e4.resourceKey>**/AirportSwingView.java</sonar.issue.ignore.multicriteria.e4.resourceKey>
+		
+		<!-- Inheritance tree of classes should not be too deep -->
+		<sonar.issue.ignore.multicriteria.e5.ruleKey>java:S110</sonar.issue.ignore.multicriteria.e5.ruleKey>
+		<sonar.issue.ignore.multicriteria.e5.resourceKey>**/AirportSwingView.java</sonar.issue.ignore.multicriteria.e5.resourceKey>
+		
 	</properties>
 
 	<dependencies>
