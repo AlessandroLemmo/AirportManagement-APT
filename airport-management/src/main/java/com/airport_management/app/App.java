@@ -1,4 +1,4 @@
-package com.airport_management;
+package com.airport_management.app;
 
 /**
  * Hello world!

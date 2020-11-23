@@ -24,6 +24,13 @@
 		<mockito.version>3.2.4</mockito.version>
 		<testcontainers.version>1.12.5</testcontainers.version>
 		
+		<sonar.coverage.exclusions>
+			**/model/*.*,
+			**/app/*.*,
+			**/exception/*.*,
+			**/transaction/*.*,
+		</sonar.coverage.exclusions>
+		
 		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
 
 		<!-- Boolean expressions should not be gratuitous -->
@@ -110,6 +117,14 @@
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.version}</version>
+					<configuration>
+						<excludes>
+							<exclude>**/app/*.*</exclude>
+							<exclude>**/exception/*.*</exclude>
+							<exclude>**/model/*.*</exclude>
+							<exclude>**/airport_management/transaction/*.*</exclude>
+						</excludes>
+					</configuration>
 					<executions>
 						<execution>
 							<goals>
