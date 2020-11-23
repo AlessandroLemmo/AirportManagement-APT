@@ -24,11 +24,15 @@
 		<mockito.version>3.2.4</mockito.version>
 		<testcontainers.version>1.12.5</testcontainers.version>
 		
-		<sonar.issue.ignore.multicriteria>e1</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2</sonar.issue.ignore.multicriteria>
 
 		<!-- Boolean expressions should not be gratuitous -->
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e1.ruleKey>
 		<sonar.issue.ignore.multicriteria.e1.resourceKey>**/*RepositoryMongo.java</sonar.issue.ignore.multicriteria.e1.resourceKey>
+		
+		<!-- Method complexity -->
+		<sonar.issue.ignore.multicriteria.e2.ruleKey>java:S3776</sonar.issue.ignore.multicriteria.e2.ruleKey>
+		<sonar.issue.ignore.multicriteria.e2.resourceKey>**/AirportServiceLayer.java</sonar.issue.ignore.multicriteria.e2.resourceKey>
 	</properties>
 
 	<dependencies>
