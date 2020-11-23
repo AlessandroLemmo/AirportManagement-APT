@@ -16,6 +16,11 @@
 		<sonar.scanner.force-deprecated-java-version>true</sonar.scanner.force-deprecated-java-version>
 		<jacoco.version>0.8.5</jacoco.version>
 		<coveralls.version>4.3.0</coveralls.version>
+		<mongo.driver.version>3.12.1</mongo.driver.version>
+		<junit.version>4.13</junit.version>
+		<assertj.swing.version>3.9.2</assertj.swing.version>
+		<mockito.version>3.2.4</mockito.version>
+		<testcontainers.version>1.12.5</testcontainers.version>
 	</properties>
 
 	<dependencies>
@@ -25,6 +30,40 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.driver.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-swing-junit</artifactId>
+			<version>${assertj.swing.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>${testcontainers.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
