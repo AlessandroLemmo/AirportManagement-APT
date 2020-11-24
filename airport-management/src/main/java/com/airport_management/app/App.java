@@ -7,6 +7,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import com.airport_management.controller.FlightController;
 import com.airport_management.controller.PlaneController;
+import com.airport_management.controller.SearchController;
 import com.airport_management.service_layer.transaction.AirportServiceLayer;
 import com.airport_management.transaction.TransactionManager;
 import com.airport_management.view.swing.AirportSwingView;
@@ -63,8 +64,9 @@ public class App implements Callable<Void> {
 				AirportSwingView swingView = new AirportSwingView();
 				PlaneController planeController = new PlaneController(swingView, serviceLayer);
 				FlightController flightController = new FlightController(swingView, serviceLayer);
+				SearchController searchController = new SearchController(swingView, serviceLayer);
 
-				swingView.setAirportController(planeController, flightController);
+				swingView.setAirportController(planeController, flightController, searchController);
 				swingView.setVisible(true);
 				planeController.allPlanes();
 				flightController.allFlights();
