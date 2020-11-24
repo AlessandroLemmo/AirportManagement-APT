@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import com.airport_management.controller.FlightController;
 import com.airport_management.controller.PlaneController;
+import com.airport_management.controller.SearchController;
 import com.airport_management.model.Plane;
 
 
@@ -30,6 +31,8 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 	@Mock
 	private FlightController flightController;
 
+	@Mock
+	private SearchController searchController;
 	
 	@Override
 	protected void onSetUp() {
@@ -37,7 +40,7 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		
 		GuiActionRunner.execute(() -> {
 			airportSwingView = new AirportSwingView();
-			airportSwingView.setAirportController(planeController, flightController);
+			airportSwingView.setAirportController(planeController, flightController, searchController);
 			return airportSwingView;
 		});
 		window = new FrameFixture(robot(), airportSwingView);
@@ -50,6 +53,7 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 	public void testControlsInitialStates() {
 		window.button(JButtonMatcher.withText("Plane Panel")).requireEnabled();
 		window.button(JButtonMatcher.withText("Flight Panel")).requireEnabled();
+		window.button(JButtonMatcher.withText("Flight Search")).requireEnabled();
 	}
 	
 	
@@ -60,6 +64,8 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		testControlsInitialStatesPlanePanel();
 		window.button(JButtonMatcher.withText("Flight Panel")).click();
 		testControlsInitialStatesFlightPanel();
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		testControlsInitialStatesSearchFlightPanel();
 	}
 	
 	
@@ -93,6 +99,17 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.panel("panel2").button(JButtonMatcher.withText("Add")).requireDisabled();
 		window.panel("panel2").button(JButtonMatcher.withText("Delete Selected")).requireDisabled();
 		window.panel("panel2").label("errorMessageLabel").requireText(" ");
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testControlsInitialStatesSearchFlightPanel() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		window.panel("panel3").label(JLabelMatcher.withText("Flight origin"));
+		window.panel("panel3").textBox("searchOriginTextBox").requireEnabled();	
+		window.panel("panel3").button(JButtonMatcher.withText("Search by origin")).requireEnabled();
+		window.panel("panel3").list("searchOriginList");
 	}
 	
 	

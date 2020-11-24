@@ -1,5 +1,6 @@
 package com.airport_management.service_layer.transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -152,6 +153,34 @@ public class AirportServiceLayer implements PlaneServiceLayer, FlightServiceLaye
 					return flightRepositoryMongo.deleteFlight(flight);	
 				});
 	}
+	
+	
+	
+	
+	
+	//############## search methods #################
+	
+		public List<Flight> findAllFlightsByOriginSL(String origin) {
+			
+			return transactionManager.doInTransaction(
+					flightRepository -> {
+						
+						FlightRepositoryMongo flightRepositoryMongo = flightRepository.createFlightRepository();
+						List<Flight> allFlights = flightRepositoryMongo.findAllFlights();
+						List<Flight> flightsToReturn = new ArrayList<>();
+						
+						for(int i = 0; i < allFlights.size(); i++) {
+							if(allFlights.get(i).getOrigin().equals(origin)) {
+								flightsToReturn.add(allFlights.get(i));
+							}
+						}
+						
+						if(flightsToReturn.isEmpty())
+							throw new FlightNotFoundException("There aren't flights with this origin");
+						
+						return flightsToReturn;	
+					});
+		}
 	
 	
 }

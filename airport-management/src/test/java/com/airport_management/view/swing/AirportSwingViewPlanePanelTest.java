@@ -24,6 +24,7 @@ import javax.swing.DefaultListModel;
 
 import com.airport_management.controller.FlightController;
 import com.airport_management.controller.PlaneController;
+import com.airport_management.controller.SearchController;
 import com.airport_management.model.Plane;
 
 
@@ -39,6 +40,9 @@ public class AirportSwingViewPlanePanelTest extends AssertJSwingJUnitTestCase{
 	@Mock
 	private FlightController flightController;
 	
+	@Mock
+	private SearchController searchController;
+	
 	private static final String ID_FIXTURE_1 = "id1-test";
 	private static final String ID_FIXTURE_2 = "id2-test";
 	private static final String MODEL_FIXTURE_1 = "model1-test";
@@ -53,7 +57,7 @@ public class AirportSwingViewPlanePanelTest extends AssertJSwingJUnitTestCase{
 		
 		GuiActionRunner.execute(() -> {
 			airportSwingView = new AirportSwingView();
-			airportSwingView.setAirportController(planeController, flightController);
+			airportSwingView.setAirportController(planeController, flightController, searchController);
 			return airportSwingView;
 		});
 		window = new FrameFixture(robot(), airportSwingView);

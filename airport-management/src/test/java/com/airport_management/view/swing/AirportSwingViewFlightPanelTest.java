@@ -23,6 +23,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.airport_management.controller.FlightController;
 import com.airport_management.controller.PlaneController;
+import com.airport_management.controller.SearchController;
 import com.airport_management.model.Flight;
 import com.airport_management.model.Plane;
 
@@ -39,6 +40,9 @@ public class AirportSwingViewFlightPanelTest extends AssertJSwingJUnitTestCase{
 	
 	@Mock
 	private FlightController flightController;
+	
+	@Mock
+	private SearchController searchController;
 	
 	private static final String ID_FIXTURE_1 = "id1-test";
 	private static final String ID_FIXTURE_2 = "id2-test";
@@ -61,7 +65,7 @@ public class AirportSwingViewFlightPanelTest extends AssertJSwingJUnitTestCase{
 		
 		GuiActionRunner.execute(() -> {
 			airportSwingView = new AirportSwingView();
-			airportSwingView.setAirportController(planeController, flightController);
+			airportSwingView.setAirportController(planeController, flightController, searchController);
 			return airportSwingView;
 		});
 		window = new FrameFixture(robot(), airportSwingView);
