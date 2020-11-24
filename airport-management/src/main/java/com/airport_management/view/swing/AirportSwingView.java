@@ -725,7 +725,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 
 		//scroll list search by departure date in range
 		scrollPane4 = new JScrollPane();
-		scrollPane4.setBounds(1, 390, 907, 94);
+		scrollPane4.setBounds(1, 390, 897, 94);
 		panel3.add(scrollPane4);
 
 
@@ -738,7 +738,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 
 		//button search by departure date in range
 		btnSearchByDepartureDate = new JButton("Search by departure date");
-		btnSearchByDepartureDate.setBounds(690, 358, 217, 25);
+		btnSearchByDepartureDate.setBounds(690, 358, 208, 25);
 		panel3.add(btnSearchByDepartureDate);
 		btnSearchByDepartureDate.addActionListener(
 				e -> searchController.findAllFlightsWithDepartureDateInRange((Date)spinnerSearchByDepartureDateStart.getValue(), (Date)spinnerSearchByDepartureDateEnd.getValue()));
