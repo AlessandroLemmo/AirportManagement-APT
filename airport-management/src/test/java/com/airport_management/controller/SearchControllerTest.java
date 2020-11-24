@@ -38,6 +38,8 @@ public class SearchControllerTest {
 	private static final String MODEL_FIXTURE = "model-test";
 	private static final Date DEPARTURE_DATE_FIXTURE = new Date();
 	private static final Date ARRIVAL_DATE_FIXTURE = new Date();
+	private static final Date START_DATE_FIXTURE = new Date();
+	private static final Date END_DATE_FIXTURE = new Date();
 	private static final Plane PLANE_FIXTURE = new Plane(ID_FIXTURE, MODEL_FIXTURE);
 	private static final Flight FLIGHT_FIXTURE = new Flight(NUM_FIXTURE, DEPARTURE_DATE_FIXTURE, ARRIVAL_DATE_FIXTURE, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE);
 	
@@ -102,6 +104,36 @@ public class SearchControllerTest {
 		
 		searchController.findAllFlightsByDestination(DESTINATION_FIXTURE);
 		verify(searchView).showAllFoundedFlightsByDestination(flights);
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenNoExist() {
+		
+		doThrow(new FlightNotFoundException("No existing flight with the insert departure date"))
+			.when(serviceLayer).findAllFlightsWithDepartureDateInRangeSL(START_DATE_FIXTURE, END_DATE_FIXTURE);
+	
+		searchController.findAllFlightsWithDepartureDateInRange(START_DATE_FIXTURE, END_DATE_FIXTURE);
+		verify(searchView).showSearchFlightError("No existing flight with the insert departure date");
+		verify(searchView).clearListSearchByDepartureDate();
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(serviceLayer.findAllFlightsWithDepartureDateInRangeSL(START_DATE_FIXTURE, END_DATE_FIXTURE))
+			.thenReturn(flights);
+		
+		searchController.findAllFlightsWithDepartureDateInRange(START_DATE_FIXTURE, END_DATE_FIXTURE);
+		verify(searchView).showAllFoundedFlightsByDepartureDate(flights);
 		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
 		verifyNoMoreInteractions(searchView);
 	}

@@ -115,6 +115,13 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.panel("panel3").textBox("searchDestinationTextBox").requireEnabled();	
 		window.panel("panel3").button(JButtonMatcher.withText("Search by destination")).requireEnabled();
 		window.panel("panel3").list("searchDestinationList");
+		
+		window.panel("panel3").label(JLabelMatcher.withText("Flight departure date in range"));
+		window.panel("panel3").spinner("spinnerSearchByDepartureDateStart").requireEnabled();
+		window.panel("panel3").label(JLabelMatcher.withName("lblRangeDepartureDate"));
+		window.panel("panel3").spinner("spinnerSearchByDepartureDateEnd").requireEnabled();
+		window.panel("panel3").button(JButtonMatcher.withText("Search by departure date")).requireEnabled();
+		window.panel("panel3").list("searchDepartureDateList");
 	}
 	
 	

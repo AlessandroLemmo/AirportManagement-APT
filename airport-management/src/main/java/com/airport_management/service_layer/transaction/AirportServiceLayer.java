@@ -205,6 +205,29 @@ public class AirportServiceLayer implements PlaneServiceLayer, FlightServiceLaye
 						return flightsToReturn;	
 					});
 		}
+		
+		
+		
+		public List<Flight> findAllFlightsWithDepartureDateInRangeSL(Date start, Date end) {
+			return transactionManager.doInTransaction(
+					flightRepository -> {
+						
+						FlightRepositoryMongo flightRepositoryMongo = flightRepository.createFlightRepository();
+						List<Flight> allFlights = flightRepositoryMongo.findAllFlights();
+						List<Flight> flightsToReturn = new ArrayList<>();
+
+						for(int i = 0; i < allFlights.size(); i++) {
+							if(allFlights.get(i).getDepartureDate().after(start) && allFlights.get(i).getDepartureDate().before(end)) {
+								flightsToReturn.add(allFlights.get(i));
+							}
+						}
+						
+						if(flightsToReturn.isEmpty())
+							throw new FlightNotFoundException("There aren't flights with departure date in the selected range");
+						
+						return flightsToReturn;	
+					});
+		}
 	
 	
 }

@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -39,6 +41,9 @@ public class SearchServiceLayerTest {
 	@InjectMocks
 	AirportServiceLayer airportServiceLayer;
 	
+	private static final Date NOW = getDates().get(0);
+	private static final Date ONE_HOUR_LATER = getDates().get(1);
+	private static final Date TWO_HOUR_LATER = getDates().get(2);
 	private static final String ID_FIXTURE_1 = "id1-test";
 	private static final String MODEL_FIXTURE = "model-test";
 	private static final String NUM_FIXTURE = "num-test";
@@ -112,6 +117,64 @@ public class SearchServiceLayerTest {
 		});	
 		assertEquals("There aren't flights with this destination", ex.getMessage());
 	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenExist() {
+		Flight flight = new Flight(NUM_FIXTURE, ONE_HOUR_LATER, null, null, null, null);
+		List<Flight> flights = asList(flight);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		List<Flight> flightsToReturn = airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(NOW, TWO_HOUR_LATER);
+		assertThat(flightsToReturn).containsExactly(flight);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenDepartureDateIsBeforeRange() {
+		Flight flight = new Flight(NUM_FIXTURE, NOW, null, null, null, null);
+		List<Flight> flights = asList(flight);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(ONE_HOUR_LATER, TWO_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with departure date in the selected range", ex.getMessage());
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenDepartureDateIsAfterRange() {
+		Flight flight = new Flight(NUM_FIXTURE, TWO_HOUR_LATER, null, null, null, null);
+		List<Flight> flights = asList(flight);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(NOW, ONE_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with departure date in the selected range", ex.getMessage());
+	}
+	
+	
+	
+	private static final List<Date> getDates() {
+		Calendar cal = Calendar.getInstance();
+		Date now = cal.getTime();
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Date oneHourLater = cal.getTime();
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Date twoHourLater = cal.getTime();
+		return asList(now, oneHourLater, twoHourLater);
+	}	
 	
 }
 

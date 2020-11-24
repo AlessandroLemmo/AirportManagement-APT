@@ -113,6 +113,34 @@ public class AirportSwingViewFlightSearchPanelTest extends AssertJSwingJUnitTest
 	
 	
 	@Test @GUITest
+	public void testShowAllFoundedFlightsByDepartureDateShouldAddFlightDescriptionsToTheListAndResetErrorLabel() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+
+		Calendar cal = Calendar.getInstance();
+		Date departureDate = cal.getTime();
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Date arrivalDate = cal.getTime();
+
+		Plane plane1 = new Plane("id1", "model1");
+		Plane plane2 = new Plane("id2", "model2");	
+		Flight flight1 = new Flight("num1", departureDate, arrivalDate, "origin1", "destination1", plane1);
+		Flight flight2 = new Flight("num2", departureDate, arrivalDate, "origin2", "destination2", plane2);
+
+		GuiActionRunner.execute(
+			() -> airportSwingView.showAllFoundedFlightsByDepartureDate(
+					Arrays.asList(flight1, flight2))
+		);
+		
+		String[] listContents = window.list("searchDepartureDateList").contents();
+		assertThat(listContents)
+			.containsExactly("flight_num=num1, departure_date=" + departureDate + ", arrival_date=" + arrivalDate + ", origin=origin1, desination=destination1, plane[id=id1, model=model1]", 
+							 "flight_num=num2, departure_date=" + departureDate + ", arrival_date=" + arrivalDate + ", origin=origin2, desination=destination2, plane[id=id2, model=model2]");
+		window.label("errorSearchFlightLabel").requireText(" ");
+	}
+	
+	
+	
+	@Test @GUITest
 	public void testShowSearchFlightErrorShouldShowTheMessageInTheErrorLabel() {
 		window.button(JButtonMatcher.withText("Flight Search")).click();
 
@@ -184,6 +212,35 @@ public class AirportSwingViewFlightSearchPanelTest extends AssertJSwingJUnitTest
 	
 	
 	@Test @GUITest
+	public void testClearListSearchByDepartureDateShouldClearList() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		
+		Calendar cal = Calendar.getInstance();
+		Date departureDate = cal.getTime();
+		cal.add(Calendar.HOUR_OF_DAY, 1);
+		Date arrivalDate = cal.getTime();
+
+		Plane plane1 = new Plane("id1", "model1");
+		Plane plane2 = new Plane("id2", "model2");	
+		Flight flight1 = new Flight("num1", departureDate, arrivalDate, "origin1", "destination1", plane1);
+		Flight flight2 = new Flight("num2", departureDate, arrivalDate, "origin2", "destination2", plane2);
+
+		GuiActionRunner.execute(
+			() -> airportSwingView.showAllFoundedFlightsByDepartureDate(
+					Arrays.asList(flight1, flight2))
+		);
+		
+		GuiActionRunner.execute(
+			() -> airportSwingView.clearListSearchByDepartureDate()
+		);
+		
+		String[] listContents = window.list("searchDepartureDateList").contents();
+		assertThat(listContents).isEmpty();
+	}
+	
+	
+	
+	@Test @GUITest
 	public void testSearchByOriginButtonShouldDelegateToSearchControllerFindAllFlightsByOrigin() {
 		window.button(JButtonMatcher.withText("Flight Search")).click();
 		String origin = "origin";
@@ -203,6 +260,16 @@ public class AirportSwingViewFlightSearchPanelTest extends AssertJSwingJUnitTest
 		verify(searchController).findAllFlightsByDestination(destination);
 	}
 	
+	
+	
+	@Test @GUITest
+	public void testSearchByDepartureDateButtonShouldDelegateToSearchControllerFindAllFlightsWithDepartureDateInRange() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		Date start = (Date)airportSwingView.getSpinnerSearchByDepartureDateStart().getValue();
+		Date end = (Date)airportSwingView.getSpinnerSearchByDepartureDateEnd().getValue();
+		window.button(JButtonMatcher.withText("Search by departure date")).click();
+		verify(searchController).findAllFlightsWithDepartureDateInRange(start, end);
+	}
 }
 
 
