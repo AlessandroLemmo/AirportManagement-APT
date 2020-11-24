@@ -32,8 +32,11 @@ public class SearchServiceLayerIT {
 
 	private static final Date NOW = getDates().get(0);
 	private static final Date ONE_HOUR_LATER = getDates().get(1);
+	private static final Date TWO_HOUR_LATER = getDates().get(2);
+	private static final Date THREE_HOUR_LATER = getDates().get(3);
 	private static final Plane PLANE_FIXTURE_1 = new Plane("model1-test");
 	private static final String ORIGIN_FIXTURE = "origin-test";
+	private static final String NUM_FIXTURE = "num1-test";
 	private static final String DESTINATION_FIXTURE = "destination-test";
 	private static final Flight FLIGHT_FIXTURE = new Flight(NOW, ONE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);	
 	
@@ -103,6 +106,43 @@ public class SearchServiceLayerIT {
 			airportServiceLayer.findAllFlightsByDestinationSL("new destination");
 		});
 		assertEquals("There aren't flights with this destination", ex.getMessage());
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenExist() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(ONE_HOUR_LATER, THREE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		List<Flight> flightsToReturn = airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(NOW, TWO_HOUR_LATER);
+		assertThat(flightsToReturn).containsExactly(flight);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenDepartureDateIsBeforeRange() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(NUM_FIXTURE, NOW, THREE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);		
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(ONE_HOUR_LATER, TWO_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with departure date in the selected range", ex.getMessage());
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDepartureDateInRangeWhenDepartureDateIsAfterRange() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(TWO_HOUR_LATER, THREE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithDepartureDateInRangeSL(NOW, ONE_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with departure date in the selected range", ex.getMessage());
 	}
 	
 	

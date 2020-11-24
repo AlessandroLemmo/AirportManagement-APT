@@ -179,6 +179,46 @@ public class AirportSwingViewSearchPanelE2E extends AssertJSwingJUnitTestCase {
 		.contains("There aren't flights with this destination");
 	}
 	
+	
+	
+	@Test @GUITest
+	public void testSearchFlightByDepartureDateInRangeButtonSuccess() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		window.spinner("spinnerSearchByDepartureDateStart").select(getDate(0));
+		window.spinner("spinnerSearchByDepartureDateEnd").select(getDate(2));
+		window.button(JButtonMatcher.withText("Search by departure date")).click();
+		assertThat(window.list("searchDepartureDateList").contents())
+			.anySatisfy(e -> assertThat(e).contains(
+					FLIGHT_FIXTURE_1.getFlightNum(),
+					FLIGHT_FIXTURE_1.getOrigin(),
+					FLIGHT_FIXTURE_1.getDestination(),
+					FLIGHT_FIXTURE_1.getDepartureDate().toString(),
+					FLIGHT_FIXTURE_1.getArrivalDate().toString(),
+					FLIGHT_FIXTURE_1.getPlane().getId(),
+					FLIGHT_FIXTURE_1.getPlane().getModel()))
+			.anySatisfy(e -> assertThat(e).contains(
+					FLIGHT_FIXTURE_2.getFlightNum(),
+					FLIGHT_FIXTURE_2.getDepartureDate().toString(), 
+					FLIGHT_FIXTURE_2.getArrivalDate().toString(),
+					FLIGHT_FIXTURE_2.getOrigin(),
+					FLIGHT_FIXTURE_2.getDestination(),
+					FLIGHT_FIXTURE_2.getPlane().getId(),
+					FLIGHT_FIXTURE_2.getPlane().getModel()));
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testSearchFlightByDepartureDateInRangeButtonError() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		window.spinner("spinnerSearchByDepartureDateStart").select(getDate(4));
+		window.spinner("spinnerSearchByDepartureDateEnd").select(getDate(5));
+		window.button(JButtonMatcher.withText("Search by departure date")).click();
+		assertThat(window.label("errorSearchFlightLabel").text())
+			.contains("There aren't flights with departure date in the selected range");
+	}
+	
+	
 		
 	
 	// ############################# private methods ################################

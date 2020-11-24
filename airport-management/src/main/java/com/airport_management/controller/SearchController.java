@@ -1,6 +1,7 @@
 package com.airport_management.controller;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.airport_management.exception.FlightNotFoundException;
@@ -48,6 +49,18 @@ public class SearchController implements Serializable {
 		}
 	}
 	
+	
+	
+	public void findAllFlightsWithDepartureDateInRange(Date start, Date end) {
+		try {
+			List<Flight> flights = serviceLayer.findAllFlightsWithDepartureDateInRangeSL(start, end);
+			searchView.showAllFoundedFlightsByDepartureDate(flights);
+		} 
+		catch(FlightNotFoundException ex) {
+			searchView.showSearchFlightError(ex.getMessage());
+			searchView.clearListSearchByDepartureDate();
+		}
+	}
 	
 }
 
