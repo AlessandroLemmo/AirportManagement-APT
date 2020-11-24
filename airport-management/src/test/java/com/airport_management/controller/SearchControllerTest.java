@@ -1,6 +1,5 @@
 package com.airport_management.controller;
 
-import static org.mockito.Mockito.doThrow;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
@@ -73,6 +72,36 @@ public class SearchControllerTest {
 		
 		searchController.findAllFlightsByOrigin(ORIGIN_FIXTURE);
 		verify(searchView).showAllFoundedFlightsByOrigin(flights);
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDestinationWhenNoExist() {		
+		
+		doThrow(new FlightNotFoundException("No existing flight with the insert origin"))
+			.when(serviceLayer).findAllFlightsByDestinationSL(DESTINATION_FIXTURE);
+		
+		searchController.findAllFlightsByDestination(DESTINATION_FIXTURE);
+		verify(searchView).showSearchFlightError("No existing flight with the insert origin");
+		verify(searchView).clearListSearchByDestination();
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDestinationWhenExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(serviceLayer.findAllFlightsByDestinationSL(DESTINATION_FIXTURE))
+			.thenReturn(flights);
+		
+		searchController.findAllFlightsByDestination(DESTINATION_FIXTURE);
+		verify(searchView).showAllFoundedFlightsByDestination(flights);
 		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
 		verifyNoMoreInteractions(searchView);
 	}

@@ -87,6 +87,24 @@ public class SearchServiceLayerIT {
 	
 	
 	
+	@Test
+	public void testFindAllFlightsByDestinationWhenExist() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		addTestFlightToRepository(FLIGHT_FIXTURE);
+		List<Flight> flightsFounded = airportServiceLayer.findAllFlightsByDestinationSL(DESTINATION_FIXTURE);
+		assertThat(flightsFounded).containsExactly(FLIGHT_FIXTURE);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDestinationWhenNoExist() {
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsByDestinationSL("new destination");
+		});
+		assertEquals("There aren't flights with this destination", ex.getMessage());
+	}
+	
 	
 	
 	

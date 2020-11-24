@@ -144,6 +144,41 @@ public class AirportSwingViewSearchPanelE2E extends AssertJSwingJUnitTestCase {
 	
 	
 	
+	@Test @GUITest
+	public void testSearchFlightByDestinationButtonSuccess() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		window.textBox("searchDestinationTextBox").enterText(DESTINATION_FIXTURE);
+		window.button(JButtonMatcher.withText("Search by destination")).click();
+		assertThat(window.list("searchDestinationList").contents())
+			.anySatisfy(e -> assertThat(e).contains(
+					FLIGHT_FIXTURE_1.getFlightNum(),
+					FLIGHT_FIXTURE_1.getOrigin(),
+					FLIGHT_FIXTURE_1.getDestination(),
+					FLIGHT_FIXTURE_1.getDepartureDate().toString(),
+					FLIGHT_FIXTURE_1.getArrivalDate().toString(),
+					FLIGHT_FIXTURE_1.getPlane().getId(),
+					FLIGHT_FIXTURE_1.getPlane().getModel()))
+			.anySatisfy(e -> assertThat(e).contains(
+					FLIGHT_FIXTURE_2.getFlightNum(),
+					FLIGHT_FIXTURE_2.getDepartureDate().toString(), 
+					FLIGHT_FIXTURE_2.getArrivalDate().toString(),
+					FLIGHT_FIXTURE_2.getOrigin(),
+					FLIGHT_FIXTURE_2.getDestination(),
+					FLIGHT_FIXTURE_2.getPlane().getId(),
+					FLIGHT_FIXTURE_2.getPlane().getModel()));
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testSearchFlightByDestinationButtonError() {
+		window.button(JButtonMatcher.withText("Flight Search")).click();
+		window.textBox("searchOriginTextBox").enterText("new-destination");	
+		window.button(JButtonMatcher.withText("Search by destination")).click();
+		assertThat(window.label("errorSearchFlightLabel").text())
+		.contains("There aren't flights with this destination");
+	}
+	
 		
 	
 	// ############################# private methods ################################

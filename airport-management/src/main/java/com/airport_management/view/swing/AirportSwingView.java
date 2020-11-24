@@ -56,19 +56,23 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private DefaultListModel<Plane> listPlanesModel;
 	private DefaultListModel<Flight> listFlightsModel;
 	private DefaultListModel<Flight> listFoundedFlightsByOriginModel;
+	private DefaultListModel<Flight> listFoundedFlightsByDestinationModel;
 	
 	private JList<Plane> listPlanes;
 	private JList<Flight> listFlights;
 	private JList<Flight> listSearchOrigin;
+	private JList<Flight> listSearchDestination;
 
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane1;
 	private JScrollPane scrollPane2;
+	private JScrollPane scrollPane3;
 
 	private JTextField txtModel;
 	private JTextField txtOrigin;
 	private JTextField txtDestination;
 	private JTextField txtSearchOrigin;
+	private JTextField txtSearchDestination;
 	
 	private JLabel lblErrorMessage;
 	private JLabel lblModel;
@@ -76,12 +80,14 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JLabel lblErrorMessageFlight;
 	private JLabel lblSearchFlightOrigin;
 	private JLabel lblErrorMessageSearch;
-
+	private JLabel lblSearchFlightDestination;
+	
 	private JButton btnAdd;
 	private JButton btnPlanePanel;
 	private JButton btnFlightPanel;
 	private JButton btnAddFlight;
 	private JButton btnDeleteSelected2;
+	private JButton btnSearchByDestination;
 	private JButton btnSearchPanel;
 	private JButton btnSearchByOrigin;
 	
@@ -624,6 +630,44 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 				e -> searchController.findAllFlightsByOrigin(txtSearchOrigin.getText()));
 
 
+		//########################################################################
+
+
+		//search by destination label
+		lblSearchFlightDestination = new JLabel("Flight destination");
+		lblSearchFlightDestination.setBounds(1, 171, 157, 15);
+		panel3.add(lblSearchFlightDestination);
+
+
+		//search by destination text
+		txtSearchDestination = new JTextField();
+		txtSearchDestination.setName("searchDestinationTextBox");
+		txtSearchDestination.setBounds(1, 193, 682, 19);
+		panel3.add(txtSearchDestination);
+		txtSearchDestination.setColumns(10);
+
+
+		//scroll list search by destination
+		scrollPane3 = new JScrollPane();
+		scrollPane3.setBounds(1, 221, 897, 94);
+		panel3.add(scrollPane3);
+
+
+		//list search by destination
+		listFoundedFlightsByDestinationModel = new DefaultListModel<>();
+		listSearchDestination = new JList<>(listFoundedFlightsByDestinationModel);
+		listSearchDestination.setName("searchDestinationList");
+		scrollPane3.setViewportView(listSearchDestination);
+
+
+		//button search by destination
+		btnSearchByDestination = new JButton("Search by destination");
+		btnSearchByDestination.setBounds(690, 190, 208, 25);
+		panel3.add(btnSearchByDestination);
+		btnSearchByDestination.addActionListener(
+				e -> searchController.findAllFlightsByDestination(txtSearchDestination.getText()));
+
+
 		//error search label
 		lblErrorMessageSearch = new JLabel(" ");
 		lblErrorMessageSearch.setName("errorSearchFlightLabel");
@@ -708,10 +752,23 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	}
 	
 	@Override
+	public void clearListSearchByDestination() {
+		listFoundedFlightsByDestinationModel.clear();
+	}
+	
+	@Override
 	public void showAllFoundedFlightsByOrigin(List<Flight> flights) {
 		listFoundedFlightsByOriginModel.clear();
 		flights.stream()
 			.forEach(listFoundedFlightsByOriginModel::addElement);
+		lblErrorMessageSearch.setText(" ");
+	}
+	
+	@Override
+	public void showAllFoundedFlightsByDestination(List<Flight> flights) {
+		listFoundedFlightsByDestinationModel.clear();
+		flights.stream()
+			.forEach(listFoundedFlightsByDestinationModel::addElement);
 		lblErrorMessageSearch.setText(" ");
 	}
 	

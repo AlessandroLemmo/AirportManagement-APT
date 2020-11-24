@@ -9,7 +9,9 @@ public interface SearchView {
 	public void showSearchFlightError(String message);
 	
 	public void clearListSearchByOrigin();
+	public void clearListSearchByDestination();
 	
 	public void showAllFoundedFlightsByOrigin(List<Flight> flights);
+	public void showAllFoundedFlightsByDestination(List<Flight> flights);
 
 }

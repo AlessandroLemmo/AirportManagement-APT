@@ -110,6 +110,11 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.panel("panel3").textBox("searchOriginTextBox").requireEnabled();	
 		window.panel("panel3").button(JButtonMatcher.withText("Search by origin")).requireEnabled();
 		window.panel("panel3").list("searchOriginList");
+		
+		window.panel("panel3").label(JLabelMatcher.withText("Flight destination"));
+		window.panel("panel3").textBox("searchDestinationTextBox").requireEnabled();	
+		window.panel("panel3").button(JButtonMatcher.withText("Search by destination")).requireEnabled();
+		window.panel("panel3").list("searchDestinationList");
 	}
 	
 	

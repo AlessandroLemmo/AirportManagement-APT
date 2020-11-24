@@ -85,5 +85,33 @@ public class SearchServiceLayerTest {
 		assertEquals("There aren't flights with this origin", ex.getMessage());
 	}
 	
+	
+	
+	@Test
+	public void testFindAllFlightsByDestinationWhenExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		List<Flight> flightsFounded = airportServiceLayer.findAllFlightsByDestinationSL(DESTINATION_FIXTURE);
+		assertThat(flightsFounded).containsExactly(FLIGHT_FIXTURE);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByDestinationWhenNoExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsByDestinationSL("new destination");
+		});	
+		assertEquals("There aren't flights with this destination", ex.getMessage());
+	}
+	
 }
 
