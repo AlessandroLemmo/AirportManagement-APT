@@ -22,9 +22,11 @@ import com.airport_management.exception.FlightNotFoundException;
 import com.airport_management.model.Flight;
 import com.airport_management.model.Plane;
 import com.airport_management.repository.mongo.FlightRepositoryMongo;
+import com.airport_management.repository.mongo.PlaneRepositoryMongo;
 import com.airport_management.repository.mongo.RepositoryMongo;
 import com.airport_management.transaction.TransactionCode;
 import com.airport_management.transaction.TransactionManager;
+import com.airport_management.exception.PlaneNotFoundException;
 
 
 public class SearchServiceLayerTest {
@@ -34,6 +36,9 @@ public class SearchServiceLayerTest {
 	
 	@Mock
 	RepositoryMongo repositoryMongo;
+	
+	@Mock
+	PlaneRepositoryMongo planeRepositoryMongo;
 	
 	@Mock
 	FlightRepositoryMongo flightRepositoryMongo;
@@ -59,6 +64,7 @@ public class SearchServiceLayerTest {
 		
 		when(transactionManager.doInTransaction(any()))
 			.thenAnswer(answer((TransactionCode<?> code) -> code.apply(repositoryMongo)));
+		when(repositoryMongo.createPlaneRepository()).thenReturn(planeRepositoryMongo);
 		when(repositoryMongo.createFlightRepository()).thenReturn(flightRepositoryMongo);
 	}
 	
@@ -240,6 +246,34 @@ public class SearchServiceLayerTest {
 	
 	
 	
+	@Test
+	public void testFindAllPlanesByModelWhenExist() {
+		List<Plane> planes = asList(PLANE_FIXTURE_1);
+		
+		when(planeRepositoryMongo.findAllPlanes())
+			.thenReturn(planes);
+		
+		List<Plane> planesToReturn = airportServiceLayer.findAllPlanesByModelSL(MODEL_FIXTURE);
+		assertThat(planesToReturn).containsExactly(PLANE_FIXTURE_1);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllPlanesByModelWhenNoExist() {
+		List<Plane> planes = asList(PLANE_FIXTURE_1);
+		
+		when(planeRepositoryMongo.findAllPlanes())
+			.thenReturn(planes);
+		
+		PlaneNotFoundException ex = assertThrows(PlaneNotFoundException.class, () -> {
+			airportServiceLayer.findAllPlanesByModelSL("new-model");
+		});
+		assertEquals("There aren't planes with insert model", ex.getMessage());
+	}
+	
+	
+	
 	private static final List<Date> getDates() {
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
@@ -249,6 +283,4 @@ public class SearchServiceLayerTest {
 		Date twoHourLater = cal.getTime();
 		return asList(now, oneHourLater, twoHourLater);
 	}	
-	
 }
-

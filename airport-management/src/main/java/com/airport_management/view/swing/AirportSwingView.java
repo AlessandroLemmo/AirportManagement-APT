@@ -61,6 +61,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private DefaultListModel<Flight> listFoundedFlightsByDepartureDateModel;
 	private DefaultListModel<Flight> listFoundedFlightsByArrivalDateModel;
 	private DefaultListModel<Flight> listFoundedFlightsAssociatesWithPlaneModel;
+	private DefaultListModel<Plane> listFoundedPlanesByModel;
 	
 	private JList<Plane> listPlanes;
 	private JList<Flight> listFlights;
@@ -69,6 +70,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JList<Flight> listSearchDepartureDate;
 	private JList<Flight> listSearchArrivalDate;
 	private JList<Flight> listSearchFlightsAssociates;
+	private JList<Plane> listSearchPlaneByModel;
 
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane1;
@@ -77,12 +79,14 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JScrollPane scrollPane4;
 	private JScrollPane scrollPane5;
 	private JScrollPane scrollPane6;
+	private JScrollPane scrollPane7;
 
 	private JTextField txtModel;
 	private JTextField txtOrigin;
 	private JTextField txtDestination;
 	private JTextField txtSearchOrigin;
 	private JTextField txtSearchDestination;
+	private JTextField txtSearchModel;
 	
 	private JLabel lblErrorMessage;
 	private JLabel lblModel;
@@ -97,6 +101,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JLabel lblRangeArrivalDate;
 	private JLabel lblSearchFlightsAssociates;
 	private JLabel lblErrorMessageSearchPlane;
+	private JLabel lblPlaneModel;
 	
 	private JButton btnAdd;
 	private JButton btnPlanePanel;
@@ -110,6 +115,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JButton btnSearchByArrivalDate;
 	private JButton btnPlaneSearch;
 	private JButton btnSearchAssociatesFlights;
+	private JButton btnSearchByModel;
 	
 	private JSpinner spinnerDepartureDate;
 	private JSpinner spinnerArrivalDate;
@@ -126,8 +132,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JLabel lblDestination;
 	private JLabel lblDepartureDate;
 	private JButton btnDeleteSelected;
-
 	
+
 
 	public JComboBox<String> getComboBox() {
 		return comboBox;
@@ -170,7 +176,6 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		return listFlightsModel;
 	}
 
-
 	
 	public void setAirportController(PlaneController planeController, FlightController flightController, SearchController searchController) {
 		this.planeController = planeController;
@@ -209,23 +214,22 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 
-
+		
 		//setup of spinner date
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
-
+		
 		cal.add(Calendar.YEAR, -1); 
 		Date previousYearFromNow = cal.getTime();
-
+		
 		cal.add(Calendar.YEAR, 2); 
 		Date nextYearFromNow = cal.getTime();
-
-		cal = Calendar.getInstance();
+		
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		Date oneSecondBeforeMidnight = cal.getTime();
-
+		
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
@@ -234,9 +238,9 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 
 		cal.add(Calendar.YEAR, 1); 
 		Date nextYear = cal.getTime();
-
-
-
+		
+		
+		
 		
 		
 		/*
@@ -286,8 +290,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		gbc_btnSearchPanel.gridx = 3;
 		gbc_btnSearchPanel.gridy = 0;
 		contentPane.add(btnSearchPanel, gbc_btnSearchPanel);
-
-
+		
+		
 		//button search plane panel
 		btnPlaneSearch = new JButton("Plane Search");
 		btnPlaneSearch.addActionListener(arg0 -> switchPanels(panel4));
@@ -296,8 +300,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		gbc_btnPlaneSearch.gridx = 4;
 		gbc_btnPlaneSearch.gridy = 0;
 		contentPane.add(btnPlaneSearch, gbc_btnPlaneSearch);
-
-
+		
+		
 		//button search plane panel add action listener
 		btnPlaneSearch.addActionListener(arg0 -> {
 			planes = planeController.returnAllPlanes();
@@ -305,9 +309,9 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 			for(int i = 0; i < planes.size(); i++)
 				comboBoxSearch.addItem(planes.get(i).getId());
 			comboBoxSearch.setSelectedIndex(-1);
-
+			
 		});
-				
+		
 		
 		//layered pane
 		layeredPane = new JLayeredPane();
@@ -656,7 +660,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		panel2.add(lblErrorMessageFlight, gbc_lblErrorMessageFlight);
 
 		
-		
+			
+
 		
 		/*
 		 * ########### Search Flight panel #############
@@ -686,7 +691,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		
 		//scroll list search by origin
 		scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(1, 50, 897, 94);
+		scrollPane2.setBounds(1, 50, 909, 94);
 		panel3.add(scrollPane2);
 		
 		
@@ -699,59 +704,59 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		
 		//button search by origin
 		btnSearchByOrigin = new JButton("Search by origin");
-		btnSearchByOrigin.setBounds(692, 20, 206, 25);
+		btnSearchByOrigin.setBounds(692, 20, 217, 25);
 		panel3.add(btnSearchByOrigin);
 		btnSearchByOrigin.addActionListener(
 				e -> searchController.findAllFlightsByOrigin(txtSearchOrigin.getText()));
-
-
+		
+		
 		//########################################################################
-
-
+		
+		
 		//search by destination label
 		lblSearchFlightDestination = new JLabel("Flight destination");
 		lblSearchFlightDestination.setBounds(1, 171, 157, 15);
 		panel3.add(lblSearchFlightDestination);
-
-
+		
+		
 		//search by destination text
 		txtSearchDestination = new JTextField();
 		txtSearchDestination.setName("searchDestinationTextBox");
 		txtSearchDestination.setBounds(1, 193, 682, 19);
 		panel3.add(txtSearchDestination);
 		txtSearchDestination.setColumns(10);
-
-
+		
+		
 		//scroll list search by destination
 		scrollPane3 = new JScrollPane();
-		scrollPane3.setBounds(1, 221, 897, 94);
+		scrollPane3.setBounds(1, 221, 908, 94);
 		panel3.add(scrollPane3);
-
-
+		
+		
 		//list search by destination
 		listFoundedFlightsByDestinationModel = new DefaultListModel<>();
 		listSearchDestination = new JList<>(listFoundedFlightsByDestinationModel);
 		listSearchDestination.setName("searchDestinationList");
 		scrollPane3.setViewportView(listSearchDestination);
-
-
+		
+		
 		//button search by destination
 		btnSearchByDestination = new JButton("Search by destination");
-		btnSearchByDestination.setBounds(690, 190, 208, 25);
+		btnSearchByDestination.setBounds(690, 190, 217, 25);
 		panel3.add(btnSearchByDestination);
 		btnSearchByDestination.addActionListener(
 				e -> searchController.findAllFlightsByDestination(txtSearchDestination.getText()));
-
-
+		
+		
 		//#####################################################################
-
-
+		
+		
 		//search by departure date in range label
 		lblSearchFlightDepartureDateInRange = new JLabel("Flight departure date in range");
 		lblSearchFlightDepartureDateInRange.setBounds(1, 340, 258, 15);
 		panel3.add(lblSearchFlightDepartureDateInRange);
-
-
+		
+		
 		//spinner search by departure date start
 		spinnerSearchByDepartureDateStart = new JSpinner();
 		spinnerSearchByDepartureDateStart.setName("spinnerSearchByDepartureDateStart");
@@ -777,10 +782,10 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 
 		//scroll list search by departure date in range
 		scrollPane4 = new JScrollPane();
-		scrollPane4.setBounds(1, 390, 897, 94);
+		scrollPane4.setBounds(1, 390, 907, 94);
 		panel3.add(scrollPane4);
 
-
+		
 		//list search by departure date in range
 		listFoundedFlightsByDepartureDateModel = new DefaultListModel<>();
 		listSearchDepartureDate = new JList<>(listFoundedFlightsByDepartureDateModel);
@@ -790,65 +795,65 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 
 		//button search by departure date in range
 		btnSearchByDepartureDate = new JButton("Search by departure date");
-		btnSearchByDepartureDate.setBounds(690, 358, 208, 25);
+		btnSearchByDepartureDate.setBounds(690, 358, 217, 25);
 		panel3.add(btnSearchByDepartureDate);
 		btnSearchByDepartureDate.addActionListener(
 				e -> searchController.findAllFlightsWithDepartureDateInRange((Date)spinnerSearchByDepartureDateStart.getValue(), (Date)spinnerSearchByDepartureDateEnd.getValue()));
-		
-		
+
+
 		//#######################################################################
-
-
+		
+		
 		//search by arrival date in range label
 		lblSearchFlightArrivalDateInRange = new JLabel("Flight arrival date in range");
 		lblSearchFlightArrivalDateInRange.setBounds(2, 518, 211, 15);
 		panel3.add(lblSearchFlightArrivalDateInRange);
-
-
+		
+		
 		//spinner search by arrival date start
 		spinnerSearchByArrivalDateStart = new JSpinner();
 		spinnerSearchByArrivalDateStart.setModel(new SpinnerDateModel(now, previousYearFromNow, nextYearFromNow, Calendar.DAY_OF_YEAR));
 		spinnerSearchByArrivalDateStart.setName("spinnerSearchByArrivalDateStart");
 		spinnerSearchByArrivalDateStart.setBounds(1, 539, 147, 20);
 		panel3.add(spinnerSearchByArrivalDateStart);
-
-
+		
+		
 		//range label
 		lblRangeArrivalDate = new JLabel("÷");
 		lblRangeArrivalDate.setName("lblRangeArrivalDate");
 		lblRangeArrivalDate.setBounds(162, 541, 20, 15);
 		panel3.add(lblRangeArrivalDate);
-
-
+		
+		
 		//spinner search by arrival date end
 		spinnerSearchByArrivalDateEnd = new JSpinner();
 		spinnerSearchByArrivalDateEnd.setName("spinnerSearchByArrivalDateEnd");
 		spinnerSearchByArrivalDateEnd.setModel(new SpinnerDateModel(now, previousYearFromNow, nextYearFromNow, Calendar.DAY_OF_YEAR));
 		spinnerSearchByArrivalDateEnd.setBounds(186, 539, 147, 20);
 		panel3.add(spinnerSearchByArrivalDateEnd);
-
-
+		
+		
 		//scroll list search by arrival date
 		scrollPane5 = new JScrollPane();
-		scrollPane5.setBounds(1, 568, 897, 94);
+		scrollPane5.setBounds(1, 568, 907, 94);
 		panel3.add(scrollPane5);
-
-
+		
+		
 		//list search by arrival date
 		listFoundedFlightsByArrivalDateModel = new DefaultListModel<>();
 		listSearchArrivalDate = new JList<>(listFoundedFlightsByArrivalDateModel);
 		listSearchArrivalDate.setName("searchArrivalDateList");
 		scrollPane5.setViewportView(listSearchArrivalDate);
-
-
+		
+		
 		//button search by arrival date
 		btnSearchByArrivalDate = new JButton("Search by arrival date");
-		btnSearchByArrivalDate.setBounds(690, 536, 208, 25);
+		btnSearchByArrivalDate.setBounds(690, 536, 217, 25);
 		panel3.add(btnSearchByArrivalDate);
 		btnSearchByArrivalDate.addActionListener(
 				e -> searchController.findAllFlightsWithArrivalDateInRange((Date)spinnerSearchByArrivalDateStart.getValue(), (Date)spinnerSearchByArrivalDateEnd.getValue()));
-
-
+		
+		
 		//error search label
 		lblErrorMessageSearch = new JLabel(" ");
 		lblErrorMessageSearch.setName("errorSearchFlightLabel");
@@ -856,7 +861,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		lblErrorMessageSearch.setBounds(12, 681, 883, 15);
 		panel3.add(lblErrorMessageSearch);
 		
-		
+
 		
 		
 		
@@ -911,11 +916,49 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		lblErrorMessageSearchPlane.setForeground(Color.RED);
 		lblErrorMessageSearchPlane.setBounds(12, 681, 882, 15);
 		panel4.add(lblErrorMessageSearchPlane);
+		
+		
+		//#############################################################################
+		
+		
+		//search plane by model label
+		lblPlaneModel = new JLabel("Plane model");
+		lblPlaneModel.setBounds(3, 339, 98, 15);
+		panel4.add(lblPlaneModel);
+		
+		//search plane by model text
+		txtSearchModel = new JTextField();
+		txtSearchModel.setName("searchModelTextBox");
+		txtSearchModel.setBounds(1, 358, 585, 19);
+		panel4.add(txtSearchModel);
+		txtSearchModel.setColumns(10);
+		
+		
+		//scroll list search by model
+		scrollPane7 = new JScrollPane();
+		scrollPane7.setBounds(1, 386, 908, 226);
+		panel4.add(scrollPane7);
+		
+		
+		//list search by model
+		listFoundedPlanesByModel = new DefaultListModel<>();
+		listSearchPlaneByModel = new JList<>(listFoundedPlanesByModel);
+		listSearchPlaneByModel.setName("searchPlaneByModelList");
+		scrollPane7.setViewportView(listSearchPlaneByModel);
+		
+		
+		//button search by model
+		btnSearchByModel = new JButton("Search by model");
+		btnSearchByModel.addActionListener(
+				e -> searchController.findAllPlanesByModel(txtSearchModel.getText()));
+		btnSearchByModel.setBounds(593, 355, 315, 25);
+		panel4.add(btnSearchByModel);
+				
+	}
 
-	}	
-
-
-
+	
+	
+	
 	
 	//######### plane methods ##########
 	
@@ -978,12 +1021,12 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	
 	
 	// ########## search methods #########
-
+	
 	@Override
 	public void showSearchFlightError(String message) {
 		lblErrorMessageSearch.setText(message);
 	}
-
+	
 	@Override
 	public void showSearchPlaneError(String message) {
 		lblErrorMessageSearchPlane.setText(message);
@@ -1012,6 +1055,11 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	@Override
 	public void clearListSearchAssociatesFlights() {
 		listFoundedFlightsAssociatesWithPlaneModel.clear();
+	}
+	
+	@Override
+	public void clearListSearchByModel() {
+		listFoundedPlanesByModel.clear();	
 	}
 	
 	@Override
@@ -1054,6 +1102,12 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		lblErrorMessageSearchPlane.setText(" ");
 	}
 	
+	@Override
+	public void showAllFoundedPlanesByModel(List<Plane> planes) {
+		listFoundedPlanesByModel.clear();
+		planes.stream()
+			.forEach(listFoundedPlanesByModel::addElement);
+		lblErrorMessageSearchPlane.setText(" ");
+	}
 }
-
 

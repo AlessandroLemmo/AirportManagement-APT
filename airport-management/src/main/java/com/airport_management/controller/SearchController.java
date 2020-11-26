@@ -8,6 +8,8 @@ import com.airport_management.exception.FlightNotFoundException;
 import com.airport_management.model.Flight;
 import com.airport_management.service_layer.transaction.AirportServiceLayer;
 import com.airport_management.view.SearchView;
+import com.airport_management.exception.PlaneNotFoundException;
+import com.airport_management.model.Plane;
 
 
 public class SearchController implements Serializable {
@@ -85,6 +87,19 @@ public class SearchController implements Serializable {
 		catch (FlightNotFoundException ex) {
 			searchView.showSearchPlaneError(ex.getMessage());
 			searchView.clearListSearchAssociatesFlights();
+		}
+	}
+	
+	
+	
+	public void findAllPlanesByModel(String model) {
+		try {
+			List<Plane> planes = serviceLayer.findAllPlanesByModelSL(model);
+			searchView.showAllFoundedPlanesByModel(planes);
+		}
+		catch(PlaneNotFoundException ex) {
+			searchView.showSearchPlaneError(ex.getMessage());
+			searchView.clearListSearchByModel();
 		}
 	}
 	

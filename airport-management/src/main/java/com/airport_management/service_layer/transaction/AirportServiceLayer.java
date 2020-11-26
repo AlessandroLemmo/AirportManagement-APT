@@ -274,8 +274,29 @@ public class AirportServiceLayer implements PlaneServiceLayer, FlightServiceLaye
 						return flightsToReturn;	
 					});
 		}
-	
-	
+		
+		
+		
+		public List<Plane> findAllPlanesByModelSL(String model) {
+			return transactionManager.doInTransaction(
+					planeRepository -> {
+						
+						PlaneRepositoryMongo planeRepositoryMongo = planeRepository.createPlaneRepository();
+						List<Plane> allPlanes = planeRepositoryMongo.findAllPlanes();
+						List<Plane> planesToReturn = new ArrayList<>();
+						
+						for(int i = 0; i < allPlanes.size(); i++) {
+							if(allPlanes.get(i).getModel().equals(model)) {
+								planesToReturn.add(allPlanes.get(i));
+							}
+						}
+						
+						if(planesToReturn.isEmpty())
+							throw new PlaneNotFoundException("There aren't planes with insert model");
+						
+						return planesToReturn;
+					});
+		}
 }
 
 

@@ -84,6 +84,26 @@ public class AirportSwingViewPlaneSearchPanelTest  extends AssertJSwingJUnitTest
 	
 	
 	@Test @GUITest
+	public void testShowAllFoundedPlanesByModelShouldAddFlightDescriptionsToTheListAndResetErrorLabel() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		Plane plane1 = new Plane("id1", "model");
+		Plane plane2 = new Plane("id2", "model");	
+		
+		GuiActionRunner.execute(
+			() -> airportSwingView.showAllFoundedPlanesByModel(
+					Arrays.asList(plane1, plane2))
+		);
+		
+		String[] listContents = window.list("searchPlaneByModelList").contents();
+		assertThat(listContents)
+			.containsExactly("id=id1, model=model", 
+							 "id=id2, model=model");
+		window.label("errorSearchPlaneLabel").requireText(" ");
+	}
+	
+	
+	
+	@Test @GUITest
 	public void testShowSearchPlaneErrorShouldShowTheMessageInTheErrorLabel() {
 		window.button(JButtonMatcher.withText("Plane Search")).click();
 
@@ -125,6 +145,27 @@ public class AirportSwingViewPlaneSearchPanelTest  extends AssertJSwingJUnitTest
 	
 	
 	@Test @GUITest
+	public void testClearListSearchByModelShouldClearList() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		Plane plane1 = new Plane("id1", "model");
+		Plane plane2 = new Plane("id2", "model");
+
+		GuiActionRunner.execute(
+			() -> airportSwingView.showAllFoundedPlanesByModel(
+					Arrays.asList(plane1, plane2))
+		);
+		
+		GuiActionRunner.execute(
+			() -> airportSwingView.clearListSearchByModel()
+		);
+		
+		String[] listContents = window.list("searchPlaneByModelList").contents();
+		assertThat(listContents).isEmpty();
+	}
+	
+	
+	
+	@Test @GUITest
 	public void testSearchAssociatesFlightsButtonShouldDelegateToSearchControllerFindAllFlightsAssiociatesWithPlane() {
 		window.button(JButtonMatcher.withText("Plane Search")).click();
 		String planeId = "planeId";
@@ -136,6 +177,13 @@ public class AirportSwingViewPlaneSearchPanelTest  extends AssertJSwingJUnitTest
 		verify(searchController).findAllFlightsAssiociatesWithPlane(planeId);
 	}
 
+	
+	@Test @GUITest
+	public void testSearchByModelButtonShouldDelegateToSearchControllerFindAllPlanesByModel() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		String model = "model";
+		window.textBox("searchModelTextBox").enterText(model);
+		window.button(JButtonMatcher.withText("Search by model")).click();
+		verify(searchController).findAllPlanesByModel(model);
+	}
 }
-
-

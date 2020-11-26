@@ -19,6 +19,7 @@ import com.airport_management.model.Flight;
 import com.airport_management.model.Plane;
 import com.airport_management.repository.mongo.PlaneRepositoryMongo;
 import com.airport_management.transaction.TransactionManager;
+import com.airport_management.exception.PlaneNotFoundException;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -205,6 +206,26 @@ public class SearchServiceLayerIT {
 		});
 		assertEquals("There aren't flights associates with selected plane", ex.getMessage());
 	}
+	
+	
+	
+	@Test
+	public void testFindAllPlanesByModelWhenExist() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		List<Plane> planesToReturn = airportServiceLayer.findAllPlanesByModelSL(PLANE_FIXTURE_1.getModel());
+		assertThat(planesToReturn).containsExactly(PLANE_FIXTURE_1);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllPlanesByModelWhenNoExist() {		
+		PlaneNotFoundException ex = assertThrows(PlaneNotFoundException.class, () -> {
+			airportServiceLayer.findAllPlanesByModelSL("new-model");
+		});
+		assertEquals("There aren't planes with insert model", ex.getMessage());
+	}
+	
 	
 	
 	

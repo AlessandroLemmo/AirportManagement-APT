@@ -142,6 +142,10 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		window.panel("panel4").comboBox("planeComboBoxSearch").requireEnabled();
 		window.panel("panel4").button(JButtonMatcher.withText("Search associates flights")).requireEnabled();
 		window.panel("panel4").list("searchFlightsAssociatesList");
+		window.panel("panel4").label(JLabelMatcher.withText("Plane model"));
+		window.panel("panel4").textBox("searchModelTextBox").requireEnabled();	
+		window.panel("panel4").button(JButtonMatcher.withText("Search by model")).requireEnabled();
+		window.panel("panel4").list("searchPlaneByModelList");
 	}
 	
 	
