@@ -1,8 +1,0 @@
-com/airport_management/service_layer/transaction/FlightServiceLayerIT.class
-com/airport_management/service_layer/transaction/PlaneServiceLayerTest.class
-com/airport_management/repository/mongo/PlaneRepositoryMongoTest.class
-com/airport_management/repository/mongo/FlightRepositoryMongoTest.class
-com/airport_management/AppTest.class
-com/airport_management/repository/mongo/RepositoryMongoTest.class
-com/airport_management/service_layer/transaction/FlightServiceLayerTest.class
-com/airport_management/service_layer/transaction/PlaneServiceLayerIT.class

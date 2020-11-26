@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.airport_management.service_layer.transaction.PlaneServiceLayerIT
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.761 s - in com.airport_management.service_layer.transaction.PlaneServiceLayerIT
