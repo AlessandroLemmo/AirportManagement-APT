@@ -168,6 +168,36 @@ public class SearchControllerTest {
 		verifyNoMoreInteractions(searchView);
 	}
 	
+	
+	
+	@Test
+	public void testFindAllAssociatesFlightsWhenNoExist() {		
+		
+		doThrow(new FlightNotFoundException("No existing flights associates at the selected plane"))
+			.when(serviceLayer).findAllFlightsAssociatesWithPlaneSL(ID_FIXTURE);
+		
+		searchController.findAllFlightsAssiociatesWithPlane(ID_FIXTURE);
+		verify(searchView).showSearchPlaneError("No existing flights associates at the selected plane");
+		verify(searchView).clearListSearchAssociatesFlights();
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllAssociatesFlightsWhenExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(serviceLayer.findAllFlightsAssociatesWithPlaneSL(ID_FIXTURE))
+			.thenReturn(flights);
+		
+		searchController.findAllFlightsAssiociatesWithPlane(ID_FIXTURE);
+		verify(searchView).showAllFoundedFlightsAssociatesWithPlane(flights);
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
 }
 
 

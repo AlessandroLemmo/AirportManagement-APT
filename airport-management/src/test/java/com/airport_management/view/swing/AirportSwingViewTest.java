@@ -66,6 +66,8 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		testControlsInitialStatesFlightPanel();
 		window.button(JButtonMatcher.withText("Flight Search")).click();
 		testControlsInitialStatesSearchFlightPanel();
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		testControlsInitialStatesSearchPlanePanel();
 	}
 	
 	
@@ -134,6 +136,17 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 	
 	
 	@Test @GUITest
+	public void testControlsInitialStatesSearchPlanePanel() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		window.panel("panel4").label(JLabelMatcher.withText("Search flights associates with the plane"));
+		window.panel("panel4").comboBox("planeComboBoxSearch").requireEnabled();
+		window.panel("panel4").button(JButtonMatcher.withText("Search associates flights")).requireEnabled();
+		window.panel("panel4").list("searchFlightsAssociatesList");
+	}
+	
+	
+	
+	@Test @GUITest
 	public void testButtonFlightPanelUpdateComboBoxOfPlanesId() {
 		
 		when(planeController.returnAllPlanes())
@@ -141,6 +154,17 @@ public class AirportSwingViewTest extends AssertJSwingJUnitTestCase {
 		
 		window.button(JButtonMatcher.withText("Flight Panel")).click();
 		assertThat(airportSwingView.getComboBox().getItemAt(0)).isEqualTo("id");
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testButtonPlaneSearchUpdateComboBoxOfPlanesId() {
+		when(planeController.returnAllPlanes())
+			.thenReturn(asList(new Plane("id", "model")));
+
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		assertThat(airportSwingView.getComboBoxSearch().getItemAt(0)).isEqualTo("id");
 	}
 
 }

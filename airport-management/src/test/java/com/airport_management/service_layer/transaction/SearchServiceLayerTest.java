@@ -212,6 +212,34 @@ public class SearchServiceLayerTest {
 	
 	
 	
+	@Test
+	public void testFindAllFlightsAssociatesWithPlaneWhenExistFlights() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		List<Flight> flightsToReturn = airportServiceLayer.findAllFlightsAssociatesWithPlaneSL(ID_FIXTURE_1);
+		assertThat(flightsToReturn).containsExactly(FLIGHT_FIXTURE);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsAssociatesWithPlaneWhenNoExistFlights() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(flightRepositoryMongo.findAllFlights())
+			.thenReturn(flights);
+		
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsAssociatesWithPlaneSL("new plane");
+		});
+		assertEquals("There aren't flights associates with selected plane", ex.getMessage());
+	}
+	
+	
+	
 	private static final List<Date> getDates() {
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
