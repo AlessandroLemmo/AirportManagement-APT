@@ -62,6 +62,19 @@ public class SearchController implements Serializable {
 		}
 	}
 	
+	
+	
+	public void findAllFlightsWithArrivalDateInRange(Date start, Date end) {
+		try {
+			List<Flight> flights = serviceLayer.findAllFlightsWithArrivalDateInRangeSL(start, end);
+			searchView.showAllFoundedFlightsByArrivalDate(flights);
+		} 
+		catch(FlightNotFoundException ex) {
+			searchView.showSearchFlightError(ex.getMessage());
+			searchView.clearListSearchByArrivalDate();
+		}
+	}
+	
 }
 
 

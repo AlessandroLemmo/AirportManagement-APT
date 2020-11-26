@@ -147,6 +147,42 @@ public class SearchServiceLayerIT {
 	
 	
 	
+	@Test
+	public void testFindAllFlightsByArrivalDateInRangeWhenExist() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(NOW, ONE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		List<Flight> flightsToReturn = airportServiceLayer.findAllFlightsWithArrivalDateInRangeSL(NOW, TWO_HOUR_LATER);
+		assertThat(flightsToReturn).containsExactly(flight);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByArrivalDateInRangeWhenArrivalDateIsBeforeRange() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(NOW, ONE_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithArrivalDateInRangeSL(TWO_HOUR_LATER, THREE_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with arrival date in the selected range", ex.getMessage());
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByArrivalDateInRangeWhenArrivalDateIsAfterRange() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(ONE_HOUR_LATER, TWO_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsWithArrivalDateInRangeSL(NOW, ONE_HOUR_LATER);
+		});	
+		assertEquals("There aren't flights with arrival date in the selected range", ex.getMessage());
+	}
+	
+	
 	
 	
 	// ########### private methods ###########

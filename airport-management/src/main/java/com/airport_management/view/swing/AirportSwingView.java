@@ -58,18 +58,21 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private DefaultListModel<Flight> listFoundedFlightsByOriginModel;
 	private DefaultListModel<Flight> listFoundedFlightsByDestinationModel;
 	private DefaultListModel<Flight> listFoundedFlightsByDepartureDateModel;
+	private DefaultListModel<Flight> listFoundedFlightsByArrivalDateModel;
 	
 	private JList<Plane> listPlanes;
 	private JList<Flight> listFlights;
 	private JList<Flight> listSearchOrigin;
 	private JList<Flight> listSearchDestination;
 	private JList<Flight> listSearchDepartureDate;
+	private JList<Flight> listSearchArrivalDate;
 
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane1;
 	private JScrollPane scrollPane2;
 	private JScrollPane scrollPane3;
 	private JScrollPane scrollPane4;
+	private JScrollPane scrollPane5;
 
 	private JTextField txtModel;
 	private JTextField txtOrigin;
@@ -86,6 +89,8 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JLabel lblRangeDepartureDate;
 	private JLabel lblSearchFlightDestination;
 	private JLabel lblSearchFlightDepartureDateInRange;
+	private JLabel lblSearchFlightArrivalDateInRange;
+	private JLabel lblRangeArrivalDate;
 	
 	private JButton btnAdd;
 	private JButton btnPlanePanel;
@@ -96,11 +101,14 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	private JButton btnSearchPanel;
 	private JButton btnSearchByOrigin;
 	private JButton btnSearchByDepartureDate;
+	private JButton btnSearchByArrivalDate;
 	
 	private JSpinner spinnerDepartureDate;
 	private JSpinner spinnerArrivalDate;
 	private JSpinner spinnerSearchByDepartureDateStart;
 	private JSpinner spinnerSearchByDepartureDateEnd;
+	private JSpinner spinnerSearchByArrivalDateStart;
+	private JSpinner spinnerSearchByArrivalDateEnd;
 	
 	private JComboBox<String> comboBox;
 	
@@ -132,6 +140,15 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		return spinnerSearchByDepartureDateEnd;
 	}
 	
+	public JSpinner getSpinnerSearchByArrivalDateStart() {
+		return spinnerSearchByArrivalDateStart;
+	}
+	
+	public JSpinner getSpinnerSearchByArrivalDateEnd() {
+		return spinnerSearchByArrivalDateEnd;
+	}
+	
+	
 	DefaultListModel<Plane> getListPlaneModel() {
 		return listPlanesModel;
 	}
@@ -139,6 +156,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	DefaultListModel<Flight> getListFlightsModel() {
 		return listFlightsModel;
 	}
+
 
 	
 	public void setAirportController(PlaneController planeController, FlightController flightController, SearchController searchController) {
@@ -742,6 +760,59 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		panel3.add(btnSearchByDepartureDate);
 		btnSearchByDepartureDate.addActionListener(
 				e -> searchController.findAllFlightsWithDepartureDateInRange((Date)spinnerSearchByDepartureDateStart.getValue(), (Date)spinnerSearchByDepartureDateEnd.getValue()));
+		
+		
+		//#######################################################################
+
+
+		//search by arrival date in range label
+		lblSearchFlightArrivalDateInRange = new JLabel("Flight arrival date in range");
+		lblSearchFlightArrivalDateInRange.setBounds(2, 518, 211, 15);
+		panel3.add(lblSearchFlightArrivalDateInRange);
+
+
+		//spinner search by arrival date start
+		spinnerSearchByArrivalDateStart = new JSpinner();
+		spinnerSearchByArrivalDateStart.setModel(new SpinnerDateModel(now, previousYearFromNow, nextYearFromNow, Calendar.DAY_OF_YEAR));
+		spinnerSearchByArrivalDateStart.setName("spinnerSearchByArrivalDateStart");
+		spinnerSearchByArrivalDateStart.setBounds(1, 539, 147, 20);
+		panel3.add(spinnerSearchByArrivalDateStart);
+
+
+		//range label
+		lblRangeArrivalDate = new JLabel("÷");
+		lblRangeArrivalDate.setName("lblRangeArrivalDate");
+		lblRangeArrivalDate.setBounds(162, 541, 20, 15);
+		panel3.add(lblRangeArrivalDate);
+
+
+		//spinner search by arrival date end
+		spinnerSearchByArrivalDateEnd = new JSpinner();
+		spinnerSearchByArrivalDateEnd.setName("spinnerSearchByArrivalDateEnd");
+		spinnerSearchByArrivalDateEnd.setModel(new SpinnerDateModel(now, previousYearFromNow, nextYearFromNow, Calendar.DAY_OF_YEAR));
+		spinnerSearchByArrivalDateEnd.setBounds(186, 539, 147, 20);
+		panel3.add(spinnerSearchByArrivalDateEnd);
+
+
+		//scroll list search by arrival date
+		scrollPane5 = new JScrollPane();
+		scrollPane5.setBounds(1, 568, 897, 94);
+		panel3.add(scrollPane5);
+
+
+		//list search by arrival date
+		listFoundedFlightsByArrivalDateModel = new DefaultListModel<>();
+		listSearchArrivalDate = new JList<>(listFoundedFlightsByArrivalDateModel);
+		listSearchArrivalDate.setName("searchArrivalDateList");
+		scrollPane5.setViewportView(listSearchArrivalDate);
+
+
+		//button search by arrival date
+		btnSearchByArrivalDate = new JButton("Search by arrival date");
+		btnSearchByArrivalDate.setBounds(690, 536, 208, 25);
+		panel3.add(btnSearchByArrivalDate);
+		btnSearchByArrivalDate.addActionListener(
+				e -> searchController.findAllFlightsWithArrivalDateInRange((Date)spinnerSearchByArrivalDateStart.getValue(), (Date)spinnerSearchByArrivalDateEnd.getValue()));
 
 
 		//error search label
@@ -750,6 +821,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		lblErrorMessageSearch.setForeground(Color.RED);
 		lblErrorMessageSearch.setBounds(12, 681, 883, 15);
 		panel3.add(lblErrorMessageSearch);
+
 	}	
 
 
@@ -838,6 +910,11 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 	}
 	
 	@Override
+	public void clearListSearchByArrivalDate() {
+		listFoundedFlightsByArrivalDateModel.clear();
+	}
+	
+	@Override
 	public void showAllFoundedFlightsByOrigin(List<Flight> flights) {
 		listFoundedFlightsByOriginModel.clear();
 		flights.stream()
@@ -858,6 +935,14 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		listFoundedFlightsByDepartureDateModel.clear();
 		flights.stream()
 			.forEach(listFoundedFlightsByDepartureDateModel::addElement);
+		lblErrorMessageSearch.setText(" ");
+	}
+	
+	@Override
+	public void showAllFoundedFlightsByArrivalDate(List<Flight> flights) {
+		listFoundedFlightsByArrivalDateModel.clear();
+		flights.stream()
+			.forEach(listFoundedFlightsByArrivalDateModel::addElement);
 		lblErrorMessageSearch.setText(" ");
 	}
 	

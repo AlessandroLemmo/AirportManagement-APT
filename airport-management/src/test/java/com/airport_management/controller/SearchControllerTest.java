@@ -138,6 +138,36 @@ public class SearchControllerTest {
 		verifyNoMoreInteractions(searchView);
 	}
 	
+	
+	
+	@Test
+	public void testFindAllFlightsByArrivalDateInRangeWhenNoExist() {
+		
+		doThrow(new FlightNotFoundException("No existing flight with the insert arrival date"))
+			.when(serviceLayer).findAllFlightsWithArrivalDateInRangeSL(START_DATE_FIXTURE, END_DATE_FIXTURE);
+	
+		searchController.findAllFlightsWithArrivalDateInRange(START_DATE_FIXTURE, END_DATE_FIXTURE);
+		verify(searchView).showSearchFlightError("No existing flight with the insert arrival date");
+		verify(searchView).clearListSearchByArrivalDate();
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsByArrivalDateInRangeWhenExist() {
+		List<Flight> flights = asList(FLIGHT_FIXTURE);
+		
+		when(serviceLayer.findAllFlightsWithArrivalDateInRangeSL(START_DATE_FIXTURE, END_DATE_FIXTURE))
+			.thenReturn(flights);
+		
+		searchController.findAllFlightsWithArrivalDateInRange(START_DATE_FIXTURE, END_DATE_FIXTURE);
+		verify(searchView).showAllFoundedFlightsByArrivalDate(flights);
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+	
 }
 
 

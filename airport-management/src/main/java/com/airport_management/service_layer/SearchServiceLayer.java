@@ -10,5 +10,6 @@ public interface SearchServiceLayer {
 	public List<Flight> findAllFlightsByOriginSL(String origin);
 	public List<Flight> findAllFlightsByDestinationSL(String destination);
 	public List<Flight> findAllFlightsWithDepartureDateInRangeSL(Date start, Date end);
+	public List<Flight> findAllFlightsWithArrivalDateInRangeSL(Date start, Date end);
 
 }
