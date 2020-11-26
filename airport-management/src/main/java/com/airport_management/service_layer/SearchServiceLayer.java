@@ -3,6 +3,7 @@ package com.airport_management.service_layer;
 import java.util.Date;
 import java.util.List;
 import com.airport_management.model.Flight;
+import com.airport_management.model.Plane;
 
 
 public interface SearchServiceLayer {
@@ -12,5 +13,5 @@ public interface SearchServiceLayer {
 	public List<Flight> findAllFlightsWithDepartureDateInRangeSL(Date start, Date end);
 	public List<Flight> findAllFlightsWithArrivalDateInRangeSL(Date start, Date end);
 	public List<Flight> findAllFlightsAssociatesWithPlaneSL(String planeId);
-
+	public List<Plane> findAllPlanesByModelSL(String model);
 }

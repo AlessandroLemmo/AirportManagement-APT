@@ -287,6 +287,33 @@ public class AirportSwingViewSearchPanelE2E extends AssertJSwingJUnitTestCase {
 	}
 	
 	
+	
+	@Test @GUITest
+	public void testSearchPlaneByModelButtonSuccess() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		window.textBox("searchModelTextBox").enterText(MODEL_FIXTURE);	
+		window.button(JButtonMatcher.withText("Search by model")).click();
+		assertThat(window.list("searchPlaneByModelList").contents())
+			.anySatisfy(e -> assertThat(e).contains(
+					PLANE_FIXTURE_1.getId(),
+					PLANE_FIXTURE_1.getModel()))
+			.anySatisfy(e -> assertThat(e).contains(
+					PLANE_FIXTURE_2.getId(),
+					PLANE_FIXTURE_2.getModel()));
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testSearchPlaneByModelButtonError() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		window.textBox("searchModelTextBox").enterText("new-model");	
+		window.button(JButtonMatcher.withText("Search by model")).click();
+		assertThat(window.label("errorSearchPlaneLabel").text())
+			.contains("There aren't planes with insert model");
+	}
+	
+	
 		
 	
 	// ############################# private methods ################################

@@ -1,5 +1,6 @@
 package com.airport_management.controller;
 
+import static org.mockito.Mockito.doThrow;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.airport_management.exception.FlightNotFoundException;
+import com.airport_management.exception.PlaneNotFoundException;
 import com.airport_management.model.Flight;
 import com.airport_management.model.Plane;
 import com.airport_management.service_layer.transaction.AirportServiceLayer;
@@ -77,7 +79,6 @@ public class SearchControllerTest {
 		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
 		verifyNoMoreInteractions(searchView);
 	}
-	
 	
 	
 	@Test
@@ -198,6 +199,35 @@ public class SearchControllerTest {
 		verifyNoMoreInteractions(searchView);
 	}
 	
+	
+	
+	@Test
+	public void testFindAllPlanesByModelWhenNoExist() {
+		
+		doThrow(new PlaneNotFoundException("No existing planes with the insert model"))
+			.when(serviceLayer).findAllPlanesByModelSL(MODEL_FIXTURE);
+		
+		searchController.findAllPlanesByModel(MODEL_FIXTURE);
+		verify(searchView).showSearchPlaneError("No existing planes with the insert model");
+		verify(searchView).clearListSearchByModel();
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
+
+	
+	
+	@Test
+	public void testFindAllPlanesByModelWhenExist() {
+		List<Plane> planes = asList(PLANE_FIXTURE);
+		
+		when(serviceLayer.findAllPlanesByModelSL(MODEL_FIXTURE))
+			.thenReturn(planes);
+		
+		searchController.findAllPlanesByModel(MODEL_FIXTURE);
+		verify(searchView).showAllFoundedPlanesByModel(planes);
+		verifyNoMoreInteractions(ignoreStubs(serviceLayer));
+		verifyNoMoreInteractions(searchView);
+	}
 }
 
 
