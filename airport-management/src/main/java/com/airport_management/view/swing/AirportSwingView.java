@@ -225,6 +225,7 @@ public class AirportSwingView extends JFrame implements PlaneView, FlightView, S
 		cal.add(Calendar.YEAR, 2); 
 		Date nextYearFromNow = cal.getTime();
 		
+		cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
