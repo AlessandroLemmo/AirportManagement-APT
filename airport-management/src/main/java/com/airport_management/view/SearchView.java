@@ -11,9 +11,11 @@ public interface SearchView {
 	public void clearListSearchByOrigin();
 	public void clearListSearchByDestination();
 	public void clearListSearchByDepartureDate();
+	public void clearListSearchByArrivalDate();
 
 	public void showAllFoundedFlightsByOrigin(List<Flight> flights);
 	public void showAllFoundedFlightsByDestination(List<Flight> flights);
 	public void showAllFoundedFlightsByDepartureDate(List<Flight> flights);
+	public void showAllFoundedFlightsByArrivalDate(List<Flight> flights);
 
 }
