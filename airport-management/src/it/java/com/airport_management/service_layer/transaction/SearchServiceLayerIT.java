@@ -35,6 +35,7 @@ public class SearchServiceLayerIT {
 	private static final Date TWO_HOUR_LATER = getDates().get(2);
 	private static final Date THREE_HOUR_LATER = getDates().get(3);
 	private static final Plane PLANE_FIXTURE_1 = new Plane("model1-test");
+	private static final Plane PLANE_FIXTURE_2 = new Plane("model2-test");
 	private static final String ORIGIN_FIXTURE = "origin-test";
 	private static final String NUM_FIXTURE = "num1-test";
 	private static final String DESTINATION_FIXTURE = "destination-test";
@@ -182,6 +183,28 @@ public class SearchServiceLayerIT {
 		assertEquals("There aren't flights with arrival date in the selected range", ex.getMessage());
 	}
 	
+	
+	
+	@Test
+	public void testFindAllFlightsAssociatesWithPlaneWhenExistFlights() {
+		addTestPlaneToRepository(PLANE_FIXTURE_1);
+		Flight flight = new Flight(ONE_HOUR_LATER, TWO_HOUR_LATER, ORIGIN_FIXTURE, DESTINATION_FIXTURE, PLANE_FIXTURE_1);
+		addTestFlightToRepository(flight);
+		List<Flight> flightsToReturn = airportServiceLayer.findAllFlightsAssociatesWithPlaneSL(PLANE_FIXTURE_1.getId());
+		assertThat(flightsToReturn).containsExactly(flight);
+	}
+	
+	
+	
+	@Test
+	public void testFindAllFlightsAssociatesWithPlaneWhenNoExistAssociatesFlights() {
+		addTestPlaneToRepository(PLANE_FIXTURE_2);	
+		String id = PLANE_FIXTURE_2.getId();
+		FlightNotFoundException ex = assertThrows(FlightNotFoundException.class, () -> {
+			airportServiceLayer.findAllFlightsAssociatesWithPlaneSL(id);
+		});
+		assertEquals("There aren't flights associates with selected plane", ex.getMessage());
+	}
 	
 	
 	

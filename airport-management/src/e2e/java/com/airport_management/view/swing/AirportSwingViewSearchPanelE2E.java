@@ -258,6 +258,35 @@ public class AirportSwingViewSearchPanelE2E extends AssertJSwingJUnitTestCase {
 	}
 	
 	
+	
+	@Test @GUITest
+	public void testSearchPlaneAssociatedFlightsButtonSuccess() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		window.comboBox("planeComboBoxSearch").selectItem(0);
+		window.button(JButtonMatcher.withText("Search associates flights")).click();
+		assertThat(window.list("searchFlightsAssociatesList").contents())
+		.anySatisfy(e -> assertThat(e).contains(
+				FLIGHT_FIXTURE_1.getFlightNum(),
+				FLIGHT_FIXTURE_1.getOrigin(),
+				FLIGHT_FIXTURE_1.getDestination(),
+				FLIGHT_FIXTURE_1.getDepartureDate().toString(),
+				FLIGHT_FIXTURE_1.getArrivalDate().toString(),
+				FLIGHT_FIXTURE_1.getPlane().getId(),
+				FLIGHT_FIXTURE_1.getPlane().getModel()));
+	}
+	
+	
+	
+	@Test @GUITest
+	public void testSearchPlaneAssociatedFlightsButtonError() {
+		window.button(JButtonMatcher.withText("Plane Search")).click();
+		window.comboBox("planeComboBoxSearch").selectItem(1);
+		window.button(JButtonMatcher.withText("Search associates flights")).click();
+		assertThat(window.label("errorSearchPlaneLabel").text())
+			.contains("There aren't flights associates with selected plane");
+	}
+	
+	
 		
 	
 	// ############################# private methods ################################

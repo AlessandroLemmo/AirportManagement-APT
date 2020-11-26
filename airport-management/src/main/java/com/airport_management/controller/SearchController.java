@@ -75,6 +75,19 @@ public class SearchController implements Serializable {
 		}
 	}
 	
+	
+	
+	public void findAllFlightsAssiociatesWithPlane(String planeId) {
+		try {
+			List<Flight> flights = serviceLayer.findAllFlightsAssociatesWithPlaneSL(planeId);
+			searchView.showAllFoundedFlightsAssociatesWithPlane(flights);
+		}
+		catch (FlightNotFoundException ex) {
+			searchView.showSearchPlaneError(ex.getMessage());
+			searchView.clearListSearchAssociatesFlights();
+		}
+	}
+	
 }
 
 
