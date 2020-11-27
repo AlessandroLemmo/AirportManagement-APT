@@ -260,7 +260,7 @@
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>com.airportmanagement.app.App</mainClass>
+									<mainClass>com.airport_management.app.App</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
