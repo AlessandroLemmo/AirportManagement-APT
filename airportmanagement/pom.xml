@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>airport-management</artifactId>
+	<artifactId>airportmanagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>airport-management</name>
+	<name>airportmanagement</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -33,7 +33,7 @@
 			**/view/swing/*.*,
 		</sonar.coverage.exclusions>
 		
-		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5,e6,e7</sonar.issue.ignore.multicriteria>
 
 		<!-- Boolean expressions should not be gratuitous -->
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>java:S2589</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -54,6 +54,14 @@
 		<!-- Inheritance tree of classes should not be too deep -->
 		<sonar.issue.ignore.multicriteria.e5.ruleKey>java:S110</sonar.issue.ignore.multicriteria.e5.ruleKey>
 		<sonar.issue.ignore.multicriteria.e5.resourceKey>**/AirportSwingView.java</sonar.issue.ignore.multicriteria.e5.resourceKey>
+		
+		<!-- Test classes should comply with a naming convention -->
+		<sonar.issue.ignore.multicriteria.e6.ruleKey>java:S3577</sonar.issue.ignore.multicriteria.e6.ruleKey>
+		<sonar.issue.ignore.multicriteria.e6.resourceKey>**/*E2E.java</sonar.issue.ignore.multicriteria.e6.resourceKey>
+
+		<!-- Similar tests should be grouped in a single Parameterized test -->
+		<sonar.issue.ignore.multicriteria.e7.ruleKey>java:S5976</sonar.issue.ignore.multicriteria.e7.ruleKey>
+		<sonar.issue.ignore.multicriteria.e7.resourceKey>**/AirportSwingViewFlightPanelE2E.java</sonar.issue.ignore.multicriteria.e7.resourceKey>
 		
 	</properties>
 
@@ -147,6 +155,7 @@
 						<configuration>
 							<sources>
 								<source>src/it/java</source>
+								<source>src/e2e/java</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -172,6 +181,11 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+						<configuration>
+							<includes>
+								<include>**/*E2E.java</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
