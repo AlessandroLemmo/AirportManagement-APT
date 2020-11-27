@@ -24,6 +24,7 @@
 		<mockito.version>3.2.4</mockito.version>
 		<testcontainers.version>1.12.5</testcontainers.version>
 		<picocli.version>4.2.0</picocli.version>
+		<pittest.version>1.4.10</pittest.version>
 		
 		<sonar.coverage.exclusions>
 			**/model/*.*,
@@ -292,6 +293,36 @@
 						</execution>
 					</executions>
 				</plugin>
+				
+				<!-- Configuration of pitest-maven plugin -->
+				<plugin>
+					<groupId>org.pitest</groupId>
+					<artifactId>pitest-maven</artifactId>
+					<version>${pittest.version}</version>
+					<configuration>
+						<excludedClasses>
+							<param>com.airport_management.model.*</param>
+							<param>com.airport_management.app.*</param>
+							<param>com.airport_management.view.swing.*</param>
+							<param>com.airport_management.transaction.*</param>
+						</excludedClasses>
+						<avoidCallsTo>
+							<avoidCallsTo>com.mongodb.client.MongoDatabase</avoidCallsTo>
+						</avoidCallsTo>
+						<targetTests>
+							<param>com.airport_management.*</param>
+						</targetTests>
+						<excludedTestClasses>
+							<param>com.airport_management.view.swing.*</param>
+							<param>**.*IT</param>
+							<param>**.*E2E</param>
+						</excludedTestClasses>
+						<mutators>
+							<mutator>DEFAULTS</mutator>
+						</mutators>
+						<mutationThreshold>98</mutationThreshold>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -309,6 +340,27 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<!-- Configuration of PIT profile to execute mutation-testing-->
+		  <profile>
+			  	<id>mutation-testing</id> 
+				<build>
+			        <plugins>
+			        	<plugin>
+							<groupId>org.pitest</groupId>
+							<artifactId>pitest-maven</artifactId> 
+							<executions>
+								<execution>
+									<goals>
+										<goal>mutationCoverage</goal>
+									</goals>
+									<phase>verify</phase>
+								</execution>
+							</executions>
+						</plugin>
+			      	</plugins>
+			   	</build>
+	  	</profile>
 	</profiles>
 
 </project>
