@@ -22,7 +22,7 @@ cache:
 
 
 script:
-- mvn -f airport-management/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
+- mvn -f airportmanagement/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
 
 
 
