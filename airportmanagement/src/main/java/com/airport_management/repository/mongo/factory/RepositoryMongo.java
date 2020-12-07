@@ -1,5 +1,7 @@
-package com.airport_management.repository.mongo;
+package com.airport_management.repository.mongo.factory;
 
+import com.airport_management.repository.mongo.FlightRepositoryMongo;
+import com.airport_management.repository.mongo.PlaneRepositoryMongo;
 import com.mongodb.MongoClient;
 import com.mongodb.client.ClientSession;
 

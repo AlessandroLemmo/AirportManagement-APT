@@ -25,7 +25,7 @@ import com.airport_management.model.Flight;
 import com.airport_management.model.Plane;
 import com.airport_management.repository.mongo.FlightRepositoryMongo;
 import com.airport_management.repository.mongo.PlaneRepositoryMongo;
-import com.airport_management.repository.mongo.RepositoryMongo;
+import com.airport_management.repository.mongo.factory.RepositoryMongo;
 import com.airport_management.transaction.TransactionCode;
 import com.airport_management.transaction.TransactionManager;
 

@@ -32,6 +32,7 @@
 			**/exception/*.*,
 			**/transaction/*.*,
 			**/view/swing/*.*,
+			**/repository/mongo/factory/*.*,
 		</sonar.coverage.exclusions>
 		
 		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5,e6,e7</sonar.issue.ignore.multicriteria>
@@ -275,6 +276,7 @@
 							<exclude>**/exception/*.*</exclude>
 							<exclude>**/model/*.*</exclude>
 							<exclude>**/airport_management/transaction/*.*</exclude>
+							<exclude>**/repository/mongo/factory/*.*</exclude>
 						</excludes>
 					</configuration>
 					<executions>
@@ -298,6 +300,7 @@
 							<param>com.airport_management.app.*</param>
 							<param>com.airport_management.view.swing.*</param>
 							<param>com.airport_management.transaction.*</param>
+							<param>com.airport_management.repository.mongo.factory.*</param>
 						</excludedClasses>
 						<avoidCallsTo>
 							<avoidCallsTo>com.mongodb.client.MongoDatabase</avoidCallsTo>

@@ -1,5 +1,6 @@
 package com.airport_management.transaction;
 
+import com.airport_management.repository.mongo.factory.RepositoryMongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.ReadConcern;
@@ -8,8 +9,6 @@ import com.mongodb.TransactionOptions;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.ClientSession;
 import com.mongodb.client.TransactionBody;
-
-import com.airport_management.repository.mongo.RepositoryMongo;
 
 
 public class TransactionManager implements TransactionManagerInterface {

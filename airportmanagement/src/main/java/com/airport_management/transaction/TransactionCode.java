@@ -1,7 +1,7 @@
 package com.airport_management.transaction;
 
+import com.airport_management.repository.mongo.factory.RepositoryMongo;
 import com.mongodb.Function;
-import com.airport_management.repository.mongo.RepositoryMongo;
 
 
 @FunctionalInterface
